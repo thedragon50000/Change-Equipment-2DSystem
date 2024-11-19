@@ -51,6 +51,7 @@ public class PartImage : MonoBehaviour
         this.col = col;
         this.row = row;
         InitSelf();
+        
     }
 
     // 在編輯器中隨時刷新圖片

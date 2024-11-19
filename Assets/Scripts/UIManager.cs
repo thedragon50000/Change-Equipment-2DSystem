@@ -10,7 +10,11 @@ public struct Pos
     public int x;
     public int y;
 
-    public Pos(int x, int y) { this.x = x; this.y = y; }
+    public Pos(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 }
 
 public class LayerInfo
@@ -40,8 +44,8 @@ public class UIManager : MonoBehaviour
     private IEnumerator Start()
     {
         selectPanel.gameObject.SetActive(false);
-        
-        for (int i=0; i<layerButtonsParent.childCount; i++)
+
+        for (int i = 0; i < layerButtonsParent.childCount; i++)
         {
             Transform child = layerButtonsParent.GetChild(i);
             RawImage raw = child.GetComponentInChildren<RawImage>();
@@ -56,7 +60,7 @@ public class UIManager : MonoBehaviour
 
         yield return null;
 
-        for (int i=0; i<layersInfo.Count; i++)
+        for (int i = 0; i < layersInfo.Count; i++)
         {
             LayerInfo info = layersInfo[i];
 
@@ -64,7 +68,7 @@ public class UIManager : MonoBehaviour
             ImageLayer layer = child.GetComponent<ImageLayer>();
             RawImage raw = child.GetComponent<RawImage>();
 
-            layer.Init(info.raw.texture);
+            layer.InitImageLayer(info.raw.texture);
             layer.SetVisible(layersInfo[i].enable);
         }
     }
@@ -74,7 +78,7 @@ public class UIManager : MonoBehaviour
         PointerEventData evt = (PointerEventData)_evt;
         Debug.Log("OnSelectClothes " + evt.pointerClick);
 
-        Transform parent = evt.pointerClick.transform.parent;      // H1, H2, H3
+        Transform parent = evt.pointerClick.transform.parent; // H1, H2, H3
         int layerIndex = parent.GetSiblingIndex();
         string className = parent.GetChild(0).name;
 
@@ -101,15 +105,15 @@ public class UIManager : MonoBehaviour
     public void ChangeClothes(RawImage raw, int layerIndex, int clothesIndex)
     {
         // 修改按鈕的rawImage
-        Debug.Log($"修改層級 {layerIndex}   名稱 {raw.transform.parent.name}" );
+        Debug.Log($"修改層級 {layerIndex}   名稱 {raw.transform.parent.name}");
         PartImage partImage = raw.GetComponent<PartImage>();
-        partImage.Init(8* clothesIndex + 1, 0);
+        partImage.Init(8 * clothesIndex + 1, 0);
 
         // 修改layer
         Transform transLayer = layersParent.GetChild(layerIndex);
 
         ImageLayer layer = transLayer.GetComponent<ImageLayer>();
-        layer.Init(raw.texture);
+        layer.InitImageLayer(raw.texture);
         layer.SetOffset(clothesIndex);
 
         // 修改LayerInfo
@@ -133,14 +137,17 @@ public class UIManager : MonoBehaviour
     {
         List<Color32[]> layers = new List<Color32[]>();
         // 貼圖變量Texture2D
-        Texture2D tex2d = new Texture2D(0,0);
+        Texture2D tex2d = new Texture2D(0, 0);
 
         // 遍歷所有圖層，根據偏移量，從RawImage中劃出需要的區域範圍，類似Photoshop的選框工具
-        for (int i=0; i<layersInfo.Count; i++)
+        for (int i = 0; i < layersInfo.Count; i++)
         {
             LayerInfo info = layersInfo[i];
 
-            if (!info.enable) { continue; }
+            if (!info.enable)
+            {
+                continue;
+            }
 
             RawImage raw = info.raw;
             Pos pos = info.unitPos;
@@ -154,10 +161,10 @@ public class UIManager : MonoBehaviour
         // 圖層合成
         // 這時已經拿到一系列的Texture2D，考慮像素透明度，將它們加到一起即可
         Color32[] pixels = new Color32[layers[0].Length];
-        for (int index=0; index<layers.Count; index++)
+        for (int index = 0; index < layers.Count; index++)
         {
             Color32[] d = layers[index];
-            for (int i=0; i<d.Length; i++)
+            for (int i = 0; i < d.Length; i++)
             {
                 pixels[i] = d[i].a != 0 ? d[i] : pixels[i];
             }
@@ -166,14 +173,14 @@ public class UIManager : MonoBehaviour
         tex2d.SetPixels32(pixels);
 
 #if UNITY_EDITOR
-        string path = "Assets/ExportPNG";//設置存儲路徑
+        string path = "Assets/ExportPNG"; //設置存儲路徑
 #else
         string path = Application.persistentDataPath;//設置存儲路徑
 #endif
         Debug.Log("保存路徑：" + path);
 
         FileStream stream = new FileStream(path + "/" + exportNameField.text + ".png", FileMode.OpenOrCreate);
-        byte[] png = tex2d.EncodeToPNG();       // EncodeToPNG，這個API很好用
+        byte[] png = tex2d.EncodeToPNG(); // EncodeToPNG，這個API很好用
         stream.Write(png, 0, png.Length);
         stream.Close();
     }
@@ -195,5 +202,4 @@ public class UIManager : MonoBehaviour
 
         return texture2D;
     }
-
 }
