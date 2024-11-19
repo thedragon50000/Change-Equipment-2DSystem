@@ -62,7 +62,7 @@ public class UISelectClothesPanel : MonoBehaviour
         PointerEventData evt = (PointerEventData)_evt;
 
         int clothesIndex = evt.pointerClick.transform.GetSiblingIndex();
-        Debug.Log($"Ñ¡ÖĞÁËµÚ{clothesIndex}¸ö");
+        Debug.Log($"é¸ä¸­äº†ç¬¬{clothesIndex}å€‹");
 
         UIManager.Instance.ChangeClothes(rawImage, layerIndex, clothesIndex);
 

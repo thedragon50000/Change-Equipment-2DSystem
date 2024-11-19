@@ -80,11 +80,11 @@ public class UIManager : MonoBehaviour
 
         switch (className)
         {
-            case "ÒÂ·ş":
+            case "è¡£æœ":
                 break;
-            case "·¢ĞÍ":
+            case "é«®å‹":
                 break;
-            case "Ğ¬×Ó":
+            case "é‹å­":
                 break;
         }
 
@@ -100,19 +100,19 @@ public class UIManager : MonoBehaviour
 
     public void ChangeClothes(RawImage raw, int layerIndex, int clothesIndex)
     {
-        // ĞŞ¸Ä°´Å¥µÄrawImage
-        Debug.Log($"ĞŞ¸Ä²ã¼¶ {layerIndex}   Ãû³Æ {raw.transform.parent.name}" );
+        // ä¿®æ”¹æŒ‰éˆ•çš„rawImage
+        Debug.Log($"ä¿®æ”¹å±¤ç´š {layerIndex}   åç¨± {raw.transform.parent.name}" );
         PartImage partImage = raw.GetComponent<PartImage>();
         partImage.Init(8* clothesIndex + 1, 0);
 
-        // ĞŞ¸Älayer
+        // ä¿®æ”¹layer
         Transform transLayer = layersParent.GetChild(layerIndex);
 
         ImageLayer layer = transLayer.GetComponent<ImageLayer>();
         layer.Init(raw.texture);
         layer.SetOffset(clothesIndex);
 
-        // ĞŞ¸ÄLayerInfo
+        // ä¿®æ”¹LayerInfo
         layersInfo[layerIndex].raw = raw;
         layersInfo[layerIndex].unitPos = new Pos(clothesIndex * 8, 0);
     }
@@ -128,14 +128,14 @@ public class UIManager : MonoBehaviour
     }
 
 
-    // ±£´æÎÄ¼ş
+    // ä¿å­˜æ–‡ä»¶
     public void SavePNG()
     {
         List<Color32[]> layers = new List<Color32[]>();
-        // ÌùÍ¼±äÁ¿Texture2D
+        // è²¼åœ–è®Šé‡Texture2D
         Texture2D tex2d = new Texture2D(0,0);
 
-        // ±éÀúËùÓĞÍ¼²ã£¬¸ù¾İÆ«ÒÆÁ¿£¬´ÓRawImageÖĞ»®³öĞèÒªµÄÇøÓò·¶Î§£¬ÀàËÆPhotoshopµÄÑ¡¿ò¹¤¾ß
+        // éæ­·æ‰€æœ‰åœ–å±¤ï¼Œæ ¹æ“šåç§»é‡ï¼Œå¾RawImageä¸­åŠƒå‡ºéœ€è¦çš„å€åŸŸç¯„åœï¼Œé¡ä¼¼Photoshopçš„é¸æ¡†å·¥å…·
         for (int i=0; i<layersInfo.Count; i++)
         {
             LayerInfo info = layersInfo[i];
@@ -151,8 +151,8 @@ public class UIManager : MonoBehaviour
             layers.Add(tex2d.GetPixels32());
         }
 
-        // Í¼²ãºÏ³É
-        // ÕâÊ±ÒÑ¾­ÄÃµ½Ò»ÏµÁĞµÄTexture2D£¬¿¼ÂÇÏñËØÍ¸Ã÷¶È£¬½«ËüÃÇ¼Óµ½Ò»Æğ¼´¿É
+        // åœ–å±¤åˆæˆ
+        // é€™æ™‚å·²ç¶“æ‹¿åˆ°ä¸€ç³»åˆ—çš„Texture2Dï¼Œè€ƒæ…®åƒç´ é€æ˜åº¦ï¼Œå°‡å®ƒå€‘åŠ åˆ°ä¸€èµ·å³å¯
         Color32[] pixels = new Color32[layers[0].Length];
         for (int index=0; index<layers.Count; index++)
         {
@@ -166,19 +166,19 @@ public class UIManager : MonoBehaviour
         tex2d.SetPixels32(pixels);
 
 #if UNITY_EDITOR
-        string path = "ExportPNG";//ÉèÖÃ´æ´¢Â·¾¶
+        string path = "ExportPNG";//è¨­ç½®å­˜å„²è·¯å¾‘
 #else
-        string path = Application.persistentDataPath;//ÉèÖÃ´æ´¢Â·¾¶
+        string path = Application.persistentDataPath;//è¨­ç½®å­˜å„²è·¯å¾‘
 #endif
-        Debug.Log("±£´æÂ·¾¶£º" + path);
+        Debug.Log("ä¿å­˜è·¯å¾‘ï¼š" + path);
 
         FileStream stream = new FileStream(path + "/" + exportNameField.text + ".png", FileMode.OpenOrCreate);
-        byte[] png = tex2d.EncodeToPNG();       // EncodeToPNG£¬Õâ¸öAPIºÜºÃÓÃ
+        byte[] png = tex2d.EncodeToPNG();       // EncodeToPNGï¼Œé€™å€‹APIå¾ˆå¥½ç”¨
         stream.Write(png, 0, png.Length);
         stream.Close();
     }
 
-    // ÍøÉÏÕÒµ½µÄTexture ×ª Texture2D ·½·¨£¬ÒªÓÃRenderTexture×ªÒ»²½£¬½ÏÂıµ«ÊÇÄÜÓÃ
+    // ç¶²ä¸Šæ‰¾åˆ°çš„Texture è½‰ Texture2D æ–¹æ³•ï¼Œè¦ç”¨RenderTextureè½‰ä¸€æ­¥ï¼Œè¼ƒæ…¢ä½†æ˜¯èƒ½ç”¨
     private Texture2D TextureToTexture2D(Texture texture, Rect area)
     {
         Texture2D texture2D = new Texture2D(Mathf.RoundToInt(area.width), Mathf.RoundToInt(area.height), TextureFormat.RGBA32, false);

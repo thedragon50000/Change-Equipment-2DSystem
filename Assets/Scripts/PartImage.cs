@@ -5,17 +5,17 @@ using UnityEngine.UI;
 
 public class PartImage : MonoBehaviour
 {
-    // Ê¹ÓÃUI RawImageÔ­ÉúÍ¼Æ¬¿Ø¼şÏÔÊ¾
+    // ä½¿ç”¨UI RawImageåŸç”Ÿåœ–ç‰‡æ§ä»¶é¡¯ç¤º
     RawImage rawImage;
-    int pixelWidth;     // ÒÔ1ÏñËØÎªµ¥Î»µÄ¿í¶È
-    int pixelHeight;    // ÒÔ1ÏñËØÎªµ¥Î»µÄ¸ß¶È
+    int pixelWidth;     // ä»¥1åƒç´ ç‚ºå–®ä½çš„å¯¬åº¦
+    int pixelHeight;    // ä»¥1åƒç´ ç‚ºå–®ä½çš„é«˜åº¦
 
-    int unitWidth;      // ÒÔ32ÏñËØÎªÒ»¸öµ¥Î»µÄ¿í¶È
-    int unitHeight;     // ÒÔ32ÏñËØÎªÒ»¸öµ¥Î»µÄ¸ß¶È
+    int unitWidth;      // ä»¥32åƒç´ ç‚ºä¸€å€‹å–®ä½çš„å¯¬åº¦
+    int unitHeight;     // ä»¥32åƒç´ ç‚ºä¸€å€‹å–®ä½çš„é«˜åº¦
 
-    public int col = 0;     // µ±Ç°ÏÔÊ¾µÚ¼¸ÁĞµÄÍ¼
-    public int row = 0;     // µ±Ç°ÏÔÊ¾µÚ¼¸ĞĞµÄÍ¼
-    public int pixelsPerUnit = 32;      // 32¸öÏñËØÎª1¸öµ¥Î»
+    public int col = 0;     // ç•¶å‰é¡¯ç¤ºç¬¬å¹¾åˆ—çš„åœ–
+    public int row = 0;     // ç•¶å‰é¡¯ç¤ºç¬¬å¹¾è¡Œçš„åœ–
+    public int pixelsPerUnit = 32;      // 32å€‹åƒç´ ç‚º1å€‹å–®ä½
 
     void Start()
     {
@@ -24,8 +24,8 @@ public class PartImage : MonoBehaviour
 
     public void Init()
     {
-        // ¾­¹ıÒ»ÏµÁĞ¼ÆËã£¬ÉèÖÃrawImageµÄUV×ø±ê¡£
-        // Ë¼Â·¾ÍÊÇ°Ñ0~unitHeightµÄÏñËØ£¬Ó³Éäµ½0.0 ~ 1.0µÄ·¶Î§¡£
+        // ç¶“éä¸€ç³»åˆ—è¨ˆç®—ï¼Œè¨­ç½®rawImageçš„UVåæ¨™ã€‚
+        // æ€è·¯å°±æ˜¯æŠŠ0~unitHeightçš„åƒç´ ï¼Œæ˜ å°„åˆ°0.0 ~ 1.0çš„ç¯„åœã€‚
 
         rawImage = GetComponent<RawImage>();
 
@@ -35,7 +35,7 @@ public class PartImage : MonoBehaviour
         unitWidth = pixelWidth / pixelsPerUnit;
         unitHeight = pixelHeight / pixelsPerUnit;
 
-        // UV×ø±êÏÂ·½ÊÇ0£¬¶ørowÊÇ´Ó×óÉÏ½Ç¿ªÊ¼ÊıµÄ
+        // UVåæ¨™ä¸‹æ–¹æ˜¯0ï¼Œè€Œrowæ˜¯å¾å·¦ä¸Šè§’é–‹å§‹æ•¸çš„
         int row2 = unitHeight - row - 1;
         Rect rect = new Rect((float)col/unitWidth, (float)row2/unitHeight, 1f/unitWidth, 1f/unitHeight);
         rawImage.uvRect = rect;
@@ -48,7 +48,7 @@ public class PartImage : MonoBehaviour
         Init();
     }
 
-    // ÔÚ±à¼­Æ÷ÖĞËæÊ±Ë¢ĞÂÍ¼Æ¬
+    // åœ¨ç·¨è¼¯å™¨ä¸­éš¨æ™‚åˆ·æ–°åœ–ç‰‡
     private void OnValidate()
     {
         if (!rawImage || !rawImage.texture)
