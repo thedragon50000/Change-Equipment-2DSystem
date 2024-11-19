@@ -166,7 +166,7 @@ public class UIManager : MonoBehaviour
         tex2d.SetPixels32(pixels);
 
 #if UNITY_EDITOR
-        string path = "ExportPNG";//設置存儲路徑
+        string path = "Assets/ExportPNG";//設置存儲路徑
 #else
         string path = Application.persistentDataPath;//設置存儲路徑
 #endif
