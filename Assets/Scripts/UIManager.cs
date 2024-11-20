@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public struct Pos
@@ -19,22 +20,38 @@ public struct Pos
 
 public class LayerInfo
 {
-    public bool enable;
-    public RawImage raw;
-    public Pos unitPos;
+    public bool Enable;
+    public RawImage Raw;
+    public Pos UnitPos;
 }
 
 public class UIManager : MonoBehaviour
 {
+    // [Header("這是顯示區域的標題")]
+
     public static UIManager Instance { get; private set; }
+
+    [Tooltip("命名用輸入框")] public InputField exportNameField;
+
+
+    /// <summary>
+    /// 預覽Panel
+    /// </summary>
+    [FormerlySerializedAs("picturePreviewParent")] [Tooltip("預覽Panel")]
+    public Transform picturePreview;
+
+
+    /// <summary>
+    /// 選擇Panel
+    /// </summary>
+    [Tooltip("選擇Panel")] public Transform buttonsParent;
+
+    /// <summary>
+    /// 按下layerButtonsParent的按鈕後彈出的選擇框
+    /// </summary>
     public UISelectClothesPanel selectPanel;
 
-    public Transform layersParent;
-    public Transform layerButtonsParent;
-
-    public InputField exportNameField;
-
-    List<LayerInfo> layersInfo = new List<LayerInfo>();
+    private readonly List<LayerInfo> _layersInfo = new();
 
     private void Awake()
     {
@@ -45,60 +62,62 @@ public class UIManager : MonoBehaviour
     {
         selectPanel.gameObject.SetActive(false);
 
-        for (int i = 0; i < layerButtonsParent.childCount; i++)
+        for (int i = 0; i < buttonsParent.childCount; i++) // 所有套件(衣服、褲子、眼鏡...等)
         {
-            Transform child = layerButtonsParent.GetChild(i);
+            Transform child = buttonsParent.GetChild(i);
             RawImage raw = child.GetComponentInChildren<RawImage>();
             Toggle toggle = child.GetComponentInChildren<Toggle>();
 
-            LayerInfo info = new LayerInfo();
-            info.raw = raw;
-            info.unitPos = new Pos(0, 0);
-            info.enable = toggle.isOn;
-            layersInfo.Add(info);
+            LayerInfo info = new LayerInfo
+            {
+                Raw = raw,
+                UnitPos = new Pos(0, 0),
+                Enable = toggle.isOn
+            };
+            _layersInfo.Add(info);
         }
 
         yield return null;
 
-        for (int i = 0; i < layersInfo.Count; i++)
+        for (int i = 0; i < _layersInfo.Count; i++)
         {
-            LayerInfo info = layersInfo[i];
+            LayerInfo info = _layersInfo[i];
 
-            Transform child = layersParent.GetChild(i);
+            Transform child = picturePreview.GetChild(i);
             ImageLayer layer = child.GetComponent<ImageLayer>();
             RawImage raw = child.GetComponent<RawImage>();
 
-            layer.InitImageLayer(info.raw.texture);
-            layer.SetVisible(layersInfo[i].enable);
+            layer.InitImageLayer(info.Raw.texture);
+            layer.SetVisible(_layersInfo[i].Enable);
         }
     }
 
-    public void OnSelectClothes(BaseEventData _evt)
+    public void OnSelectClothes(BaseEventData baseEventData)
     {
-        PointerEventData evt = (PointerEventData)_evt;
+        PointerEventData evt = (PointerEventData)baseEventData;
         Debug.Log("OnSelectClothes " + evt.pointerClick);
 
         Transform parent = evt.pointerClick.transform.parent; // H1, H2, H3
         int layerIndex = parent.GetSiblingIndex();
         string className = parent.GetChild(0).name;
 
-        switch (className)
-        {
-            case "衣服":
-                break;
-            case "髮型":
-                break;
-            case "鞋子":
-                break;
-        }
+        // switch (className)
+        // {
+        //     case "衣服":
+        //         break;
+        //     case "髮型":
+        //         break;
+        //     case "鞋子":
+        //         break;
+        // }
 
         RawImage raw = evt.pointerClick.GetComponent<RawImage>();
         ShowSelectPanel(layerIndex, className, raw);
     }
 
-    public void ShowSelectPanel(int layerIndex, string className, RawImage raw)
+    public void ShowSelectPanel(int index, string className, RawImage raw)
     {
-        selectPanel.Init(layerIndex, className, raw);
+        selectPanel.InitSelectingPanel(index, className, raw);
         selectPanel.gameObject.SetActive(true);
     }
 
@@ -110,23 +129,23 @@ public class UIManager : MonoBehaviour
         partImage.Init(8 * clothesIndex + 1, 0);
 
         // 修改layer
-        Transform transLayer = layersParent.GetChild(layerIndex);
+        Transform transLayer = picturePreview.GetChild(layerIndex);
 
         ImageLayer layer = transLayer.GetComponent<ImageLayer>();
         layer.InitImageLayer(raw.texture);
         layer.SetOffset(clothesIndex);
 
         // 修改LayerInfo
-        layersInfo[layerIndex].raw = raw;
-        layersInfo[layerIndex].unitPos = new Pos(clothesIndex * 8, 0);
+        _layersInfo[layerIndex].Raw = raw;
+        _layersInfo[layerIndex].UnitPos = new Pos(clothesIndex * 8, 0);
     }
 
     public void OnToggleChange(Toggle toggle)
     {
         int index = toggle.transform.parent.GetSiblingIndex();
-        layersInfo[index].enable = toggle.isOn;
+        _layersInfo[index].Enable = toggle.isOn;
 
-        Transform transLayer = layersParent.GetChild(index);
+        Transform transLayer = picturePreview.GetChild(index);
         ImageLayer layer = transLayer.GetComponent<ImageLayer>();
         layer.SetVisible(toggle.isOn);
     }
@@ -135,22 +154,22 @@ public class UIManager : MonoBehaviour
     // 保存文件
     public void SavePNG()
     {
-        List<Color32[]> layers = new List<Color32[]>();
+        List<Color32[]> layers = new();
         // 貼圖變量Texture2D
-        Texture2D tex2d = new Texture2D(0, 0);
+        Texture2D tex2d = new(0, 0);
 
         // 遍歷所有圖層，根據偏移量，從RawImage中劃出需要的區域範圍，類似Photoshop的選框工具
-        for (int i = 0; i < layersInfo.Count; i++)
+        for (int i = 0; i < _layersInfo.Count; i++)
         {
-            LayerInfo info = layersInfo[i];
+            LayerInfo info = _layersInfo[i];
 
-            if (!info.enable)
+            if (!info.Enable)
             {
                 continue;
             }
 
-            RawImage raw = info.raw;
-            Pos pos = info.unitPos;
+            RawImage raw = info.Raw;
+            Pos pos = info.UnitPos;
 
             Rect rect = new Rect(pos.x * 32, 0, 8 * 32, raw.texture.height);
 
@@ -166,7 +185,8 @@ public class UIManager : MonoBehaviour
             Color32[] d = layers[index];
             for (int i = 0; i < d.Length; i++)
             {
-                pixels[i] = d[i].a != 0 ? d[i] : pixels[i];
+                // Note: 一層一層疊上去，如果a值(透明度)為0，就維持原樣
+                pixels[i] = d[i].a == 0 ? pixels[i] : d[i];
             }
         }
 

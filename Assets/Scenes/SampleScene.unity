@@ -679,7 +679,7 @@ GameObject:
   - component: {fileID: 84564707}
   - component: {fileID: 84564708}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1173,7 +1173,7 @@ GameObject:
   - component: {fileID: 110416863}
   - component: {fileID: 110416864}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2513,7 +2513,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 33360840}
   m_Direction: 2
   m_Value: 1.0000001
-  m_Size: 0.6171743
+  m_Size: 0.61128944
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2802,7 +2802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &253472338
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3435,7 +3435,7 @@ GameObject:
   - component: {fileID: 314832430}
   - component: {fileID: 314832431}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3773,7 +3773,7 @@ GameObject:
   - component: {fileID: 404002251}
   - component: {fileID: 404002252}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4889,7 +4889,7 @@ GameObject:
   - component: {fileID: 505660397}
   - component: {fileID: 505660398}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5927,7 +5927,7 @@ GameObject:
   - component: {fileID: 643387052}
   - component: {fileID: 643387053}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6572,10 +6572,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbe788b348aae3144bc0f61c6e62a709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectPanel: {fileID: 1590139190}
-  layersParent: {fileID: 67789190}
-  layerButtonsParent: {fileID: 1562483622}
   exportNameField: {fileID: 733609005}
+  picturePreview: {fileID: 67789190}
+  buttonsParent: {fileID: 1562483622}
+  selectPanel: {fileID: 1590139190}
 --- !u!4 &699611179
 Transform:
   m_ObjectHideFlags: 0
@@ -7299,7 +7299,7 @@ GameObject:
   - component: {fileID: 805220975}
   - component: {fileID: 805220976}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9849,7 +9849,7 @@ GameObject:
   - component: {fileID: 1089234861}
   - component: {fileID: 1089234862}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10034,7 +10034,7 @@ GameObject:
   - component: {fileID: 1111873126}
   - component: {fileID: 1111873127}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11742,7 +11742,7 @@ GameObject:
   - component: {fileID: 1295576491}
   - component: {fileID: 1295576492}
   m_Layer: 5
-  m_Name: "\u5F00\u5173 (1)"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13631,7 +13631,7 @@ GameObject:
   - component: {fileID: 1562483624}
   - component: {fileID: 1562483623}
   m_Layer: 5
-  m_Name: "\u9009\u62E9\u533A Vert Layout"
+  m_Name: SelectingPanel Vert Layout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13717,7 +13717,7 @@ GameObject:
   - component: {fileID: 1590139188}
   - component: {fileID: 1590139190}
   m_Layer: 5
-  m_Name: "\u9009\u62E9\u670D\u88C5\u7A97\u53E3"
+  m_Name: popupWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13929,7 +13929,7 @@ GameObject:
   - component: {fileID: 1616671278}
   - component: {fileID: 1616671279}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14267,7 +14267,7 @@ GameObject:
   - component: {fileID: 1638790636}
   - component: {fileID: 1638790637}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15427,7 +15427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.00064086914}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0}
   m_SizeDelta: {x: 903, y: 5530.875}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1818587908
@@ -15450,7 +15450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: c7f3bba4e336f294ebded3440f72f312, type: 3}
+  m_Texture: {fileID: 2800000, guid: 5bea59e1ddb70404db149518dbb2ad64, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -17928,7 +17928,7 @@ GameObject:
   - component: {fileID: 2094031174}
   - component: {fileID: 2094031175}
   m_Layer: 5
-  m_Name: "\u5F00\u5173"
+  m_Name: Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

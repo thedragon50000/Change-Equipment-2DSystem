@@ -76,9 +76,10 @@ public class ImageLayer : MonoBehaviour
         float parentWidth = transform.parent.GetComponent<RectTransform>().rect.width;
         Debug.Log($"parent--width {parentWidth}");
 
-        // Note: 身體的圖是其他所有裝備的8倍寬，所以 *8 就會只顯示一列 ，但因為想顯示8列所以再 /8
-        // Note: 結果而言一樣，但邏輯差很多
-        float uiX = parentWidth * clothesIndex * 8 / 8;
+        // Note: 每套裝備都有等量的圖，圖的寬度等於 parentWidth。
+        // Note: 若我有第二套甚至第三套，把anchoredPosition 往左移動一個parentWidth的距離，就是對齊後的第二套
+        
+        float uiX = parentWidth * clothesIndex ;
 
         transform.GetComponent<RectTransform>().anchoredPosition = new Vector2(-uiX, 0);
     }

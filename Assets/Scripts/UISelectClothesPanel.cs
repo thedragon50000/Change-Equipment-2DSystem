@@ -4,50 +4,56 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// 讓你選擇服裝的彈窗
+/// </summary>
 public class UISelectClothesPanel : MonoBehaviour
 {
     public int layerIndex;
-    Text title;
-    RawImage rawImage;
-    GridLayoutGroup grid;
+    Text _title;
+    RawImage _rawImage;
+    GridLayoutGroup _grid;
 
-    public RawImage prefabGridItem;
+    public RawImage prefabGridItem; //32*32
 
-    public void Init(int layerIndex, string name, RawImage raw)
+    public void InitSelectingPanel(int index, string sName, RawImage raw)
     {
-        this.layerIndex = layerIndex;
+        layerIndex = index;
 
-        if (title == null)
+        if (!_title)
         {
-            title = transform.GetChild(0).GetComponent<Text>();
-        }
-        if (grid == null)
-        {
-            grid = transform.GetChild(1).GetComponent<GridLayoutGroup>();
+            _title = transform.GetChild(0).GetComponent<Text>();
         }
 
-        rawImage = raw;
+        if (!_grid)
+        {
+            _grid = transform.GetChild(1).GetComponent<GridLayoutGroup>();
+        }
 
-        title.text = name;
+        _rawImage = raw;
 
+        _title.text = sName;
+
+        // Note: 除以32是因為每張圖都是32*32，除以8是因為一套衣服有8列，但彈窗只需要展示第一列第一件即可
         int n = raw.texture.width / (8 * 32);
 
         {
-            int k = grid.transform.childCount;
-            while (k > 0)
+            // 歸零
+            int k = _grid.transform.childCount;
+            for (int i = 0; i < k; i++)
             {
-                DestroyImmediate(grid.transform.GetChild(0).gameObject);
-                k--;
+                DestroyImmediate(_grid.transform.GetChild(0).gameObject);
             }
         }
 
-        for (int i=0; i<n; i++)
+        // 產生
+        for (int i = 0; i < n; i++)
         {
-            RawImage item = Instantiate(prefabGridItem, grid.transform);
+            RawImage item = Instantiate(prefabGridItem, _grid.transform);
             item.texture = raw.texture;
 
             PartImage part = item.GetComponent<PartImage>();
-            part.Init(i*8, 0);
+            part.Init(i * 8, 0);
 
             EventTrigger et = item.GetComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -57,14 +63,14 @@ public class UISelectClothesPanel : MonoBehaviour
         }
     }
 
-    public void OnClickItem(BaseEventData _evt)
+    private void OnClickItem(BaseEventData baseEventData)
     {
-        PointerEventData evt = (PointerEventData)_evt;
+        PointerEventData evt = (PointerEventData)baseEventData;
 
         int clothesIndex = evt.pointerClick.transform.GetSiblingIndex();
         Debug.Log($"選中了第{clothesIndex}個");
 
-        UIManager.Instance.ChangeClothes(rawImage, layerIndex, clothesIndex);
+        UIManager.Instance.ChangeClothes(_rawImage, layerIndex, clothesIndex);
 
         transform.gameObject.SetActive(false);
     }
